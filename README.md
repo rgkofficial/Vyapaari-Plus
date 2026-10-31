@@ -212,6 +212,68 @@ gantt
 
 ---
 
+## Verified Repository Status
+
+The current repository contains production-oriented implementations and tests
+for GST calculation and validation, HSN lookup, e-invoice/e-way bill payload
+validation, supplier credit accounting, purchase orders and goods receipts,
+product management, multi-branch stock transfers, delivery tracking, and
+damaged/missing/excess reconciliation. The automated suite covers these areas
+with unit and integration tests.
+
+The folders for authentication, business setup, billing, customers,
+employees, finance, and reports are reserved module boundaries but do not yet
+contain complete domain implementations. The Qt shell currently exposes
+placeholder navigation for screens outside the implemented inventory and
+purchase workflows. These are documented limitations rather than represented
+as finished features.
+
+## Local Setup and Commands
+
+Vyapaari+ requires Python 3.12 or newer. From the repository root:
+
+```bash
+python -m venv .venv
+# Linux/macOS
+source .venv/bin/activate
+# Windows PowerShell: .venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+```
+
+Run the complete test suite with the package root available on `PYTHONPATH`:
+
+```bash
+PYTHONPATH=. pytest -q
+```
+
+Start the desktop application with `python run.py`. For CI, migrations, or an
+API-only host without a graphical display, use safe schema-only startup:
+
+```bash
+APP_HEADLESS=true python -m app.main
+```
+
+The inventory transfer API can be served with:
+
+```bash
+uvicorn app.api:app --reload
+```
+
+It exposes `/health` and the transfer lifecycle endpoints under `/transfers`.
+The local SQLite database defaults to `vyapaari.db`; set `DATABASE_URL` to use
+another SQLAlchemy-supported URL. Alembic uses the same setting and imports
+the complete implemented model registry for schema comparison.
+
+## Known Limitations
+
+GST payload builders validate and produce integration-ready payloads, but live
+government portal submission, credentials, e-invoice IRN generation, and
+e-way bill API calls are not included. PDF/Excel export, AI forecasting, and
+the remaining desktop screens are planned extension points, not claims of
+current completion.
+
+---
+
 ## 🛠️ Contribution & PR Workflow
 
 We welcome contributions to Vyapaari+! Please follow our feature branch workflow:
