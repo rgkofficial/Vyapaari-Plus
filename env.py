@@ -14,8 +14,16 @@ if str(PROJECT_ROOT) not in sys.path:
 from app.config import settings
 from app.db.base import Base
 
-# Import every implemented model so autogenerate sees the complete schema.
-import app.db.models  # noqa: F401
+# Import model modules so their tables are registered in Base.metadata.
+from app.modules.auth import models as auth_models  # noqa: F401
+from app.modules.billing import models as billing_models  # noqa: F401
+from app.modules.business import models as business_models  # noqa: F401
+from app.modules.customers import models as customer_models  # noqa: F401
+from app.modules.inventory import models as inventory_models  # noqa: F401
+from app.modules.products import models as product_models  # noqa: F401
+from app.modules.purchasing import models as purchasing_models  # noqa: F401
+from app.modules.purchasing import grn_models  # noqa: F401
+from app.modules.suppliers import models as supplier_models  # noqa: F401
 
 config = context.config
 
